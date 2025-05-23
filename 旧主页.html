@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>林墨瀚の个人主页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 8vh;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* 黑夜模式 */
+        body.dark-mode {
+            background: linear-gradient(135deg, #0b1015 0%, #1a242f 100%);
+            color: #c3cfe2;
+        }
+
+        /* 标题部分 */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: fadeIn 1s ease;
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            color: #1a1a1a;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.2rem;
+            font-weight: 300;
+        }
+
+        body.dark-mode .main-title, body.dark-mode .subtitle {
+            color: #c3cfe2;
+        }
+
+        /* 切换按钮样式 */
+        .toggle-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ffffff;
+            border: none;
+            padding: 1rem;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .toggle-button {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .toggle-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 时钟窗口样式 */
+        .clock-window {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 2rem;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: slideUp 0.8s ease;
+            margin-bottom: 2rem;
+            transition: background 0.3s ease;
+        }
+
+        body.dark-mode .clock-window {
+            background: rgba(46, 58, 71, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        #clock {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #1a1a1a;
+            text-align: center;
+        }
+
+        #date {
+            font-size: 1.2rem;
+            color: #555;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        body.dark-mode #clock, body.dark-mode #date {
+            color: #c3cfe2;
+        }
+
+        /* 名言窗口样式 */
+        .quote-window {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 2rem;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: slideUp 0.8s ease;
+            margin-bottom: 2rem;
+            transition: background 0.3s ease;
+        }
+
+        body.dark-mode .quote-window {
+            background: rgba(46, 58, 71, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        .quote {
+            font-size: 1.2rem;
+            color: #555;
+            font-style: italic;
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        body.dark-mode .quote {
+            color: #c3cfe2;
+        }
+
+        /* 苹果风窗口 */
+        .mac-window {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 2rem;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: slideUp 0.8s ease;
+            margin-bottom: 2rem;
+            transition: background 0.3s ease;
+        }
+
+        body.dark-mode .mac-window {
+            background: rgba(46, 58, 71, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        /* 按钮容器 */
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        /* 苹果风格按钮 */
+        .mac-button {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            padding: 1.2rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            color: #1a1a1a;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .mac-button:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode .mac-button {
+            background: rgba(46, 58, 71, 0.9);
+            color: #c3cfe2;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        body.dark-mode .mac-button:hover {
+            background: rgba(46, 58, 71, 1);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.7);
+        }
+
+        /* 通用窗口样式 */
+        .mac-window,
+        .quote-window,
+        .clock-window,
+        .search-window {
+            /* 基础样式保持不变 */
+            box-sizing: border-box;
+        }
+
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 修改移动端适配部分 */
+        @media (max-width: 768px) {
+            /* 基础布局调整 */
+            body {
+                padding: 4vh 4% 0;
+                -webkit-overflow-scrolling: touch; /* 启用弹性滚动 */
+            }
+
+            /* 标题响应式处理 */
+            .header {
+                margin-bottom: 1.5rem;
+            }
+            .main-title {
+                font-size: clamp(1.8rem, 6.5vw, 2.2rem);
+                line-height: 1.3;
+            }
+            .subtitle {
+                font-size: clamp(0.9rem, 3.8vw, 1.1rem);
+                line-height: 1.5;
+            }
+
+            /* 通用窗口样式 */
+            .mac-window,
+            .quote-window,
+            .clock-window,
+            .search-window {
+                width: 100% !important;
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+                border-radius: 14px;
+                box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            }
+
+            /* 时钟特殊优化 */
+            .clock-window {
+                padding: 1.2rem;
+                #clock {
+                font-size: clamp(1.8rem, 8vw, 2.4rem);
+                letter-spacing: -0.5px;
+                }
+                #date {
+                font-size: clamp(0.9rem, 3.5vw, 1rem);
+                margin-top: 0.5rem;
+                }
+            }
+
+            /* 名言段落优化 */
+            .quote-window .quote {
+                font-size: clamp(0.95rem, 4vw, 1.1rem);
+                line-height: 1.7;
+                br {
+                display: none; /* 移动端隐藏换行 */
+                }
+            }
+
+            /* 按钮网格重构 */
+            .button-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                .mac-button {
+                min-height: 52px; /* 增大触摸区域 */
+                padding: 1rem 0.8rem;
+                font-size: clamp(1rem, 4vw, 1.1rem);
+                border-radius: 10px;
+                }
+            }
+
+            /* 搜索组件深度优化 */
+            .search-window {
+
+                margin-top: -0.5rem; /* 上移与标题重叠 */
+                padding: 1rem;
+                .search-container {
+                gap: 0.8rem;
+                }
+                .search-engine-dropdown,
+                .search-box,
+                .search-button {
+                font-size: 16px; /* 固定字体大小防止缩放 */
+                border-radius: 8px;
+                min-height: 48px;
+                }
+                .search-button {
+                padding: 0.8rem;
+                }
+            }
+
+            /* 暗色模式适配 */
+            body.dark-mode {
+                .search-window {
+                background: rgba(30, 34, 46, 0.95);
+                }
+                .mac-button {
+                background: rgba(46, 58, 71, 0.95);
+                }
+            }
+
+            /* 切换按钮优化 */
+            .toggle-button {
+                bottom: 12px;
+                right: 12px;
+                padding: 0.85rem;
+                font-size: 1.3rem;
+                box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+                }
+
+            /* 禁用动画提升性能 */
+            @media (prefers-reduced-motion: reduce) {
+                * {
+                animation: none !important;
+                transition: none !important;
+                }
+            }
+
+            @media (max-width: 520px) {
+                /* 隐藏搜索引擎选择与按钮 */
+                .search-engine-dropdown,
+                .search-button {
+                    display: none !important;
+                }
+
+                /* 调整搜索框样式 */
+                .search-container {
+                    position: relative;
+                }
+
+                .search-box {
+                    width: 100% !important;
+                    padding: 1rem 1.5rem !important;
+                    border-radius: 12px !important;
+                    background: rgba(255, 255, 255, 0.95) !important;
+                    font-size: 16px !important;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+                }
+
+                /* 添加移动端搜索提示 */
+                .search-box::placeholder {
+                    content: "🔍 输入内容后按确认";
+                    font-size: 14px;
+                }
+
+                /* 适配虚拟键盘搜索按钮 */
+                .search-box::-webkit-search-decoration {
+                    -webkit-appearance: none;
+                }
+                .mobile-search-hint {
+                    display: block;
+                }
+
+                /* 自动聚焦样式 */
+                .search-box:focus {
+                    box-shadow: 0 0 0 2px rgba(0,123,255,0.3);
+                }
+
+                  /* 暗色模式适配 */
+                body.dark-mode .search-window {
+                    background: rgba(46, 58, 71, 0.9) !important;
+                }
+                body.dark-mode .search-box {
+                    background: rgba(255, 255, 255, 0.1) !important;
+                    color: #fff !important;
+                }
+
+
+                }
+
+            @media (max-width: 380px) {
+                .search-box {
+                    font-size: 14px !important;
+                    padding: 0.7rem 1rem !important;
+                }
+            }
+        }
+
+
+        /* 番茄钟样式 */
+        .pomodoro-container {
+            position: relative;
+            text-align: center;
+        }
+
+        .time-display {
+            margin: 1rem 0 2rem;
+        }
+
+        /* 新增按钮布局样式 */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        #timer {
+            font-size: 2.8rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            letter-spacing: -1px;
+            line-height: 1.2;
+        }
+
+        .session-info {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 0.8rem;
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        .linear-progress {
+            height: 12px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 6px;
+            margin: 0 auto 2rem;
+            overflow: hidden;
+            width: 90%;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #007bff;
+            border-radius: 6px;
+            transform-origin: left;
+            transition: transform 0.5s linear;
+        }
+
+        /* 深色模式 */
+        body.dark-mode {
+            #timer { color: #c3cfe2; }
+            .session-info { color: #8a9ba8; }
+            .linear-progress { background: rgba(255,255,255,0.1); }
+            .progress-bar { background: #6c8dfa; }
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            #timer {
+                font-size: clamp(2rem, 10vw, 2.6rem);
+            }
+
+            .session-info {
+                flex-direction: column;
+                gap: 0.4rem;
+                font-size: 0.85rem;
+            }
+
+            .linear-progress {
+                height: 10px;
+                margin-bottom: 1.5rem;
+                width: 85%;
+            }
+
+            .time-settings {
+                grid-template-columns: 1fr;
+            }
+
+            @media (orientation: landscape) {
+                #timer { font-size: 2rem; }
+                .linear-progress { height: 8px; }
+            }
+
+            .action-buttons {
+                gap: 1rem;
+                flex-wrap: nowrap; /* 防止换行 */
+            }
+
+            .mac-button {
+                min-width: 45%; /* 移动端适配 */
+                padding: 1rem;
+            }
+
+            @media (orientation: landscape) {
+                .action-buttons {
+                    gap: 0.8rem;
+                }
+                .mac-button {
+                    min-width: 40%;
+                }
+            }
+
+
+        /* 超大屏幕优化 */
+        @media (min-width: 1600px) {
+            .action-buttons {
+                gap: 2rem;
+            }
+        }
+        }
+
+        .styled-input {
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            background: rgba(0,0,0,0.05);
+            font-size: 1rem;
+            text-align: center;
+            width: 100%;
+        }
+
+        body.dark-mode .styled-input {
+            background: rgba(255,255,255,0.1);
+            color: #c3cfe2;
+        }
+
+        /* 搜索框样式 */
+        .search-window {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 1rem;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: slideUp 0.8s ease;
+            margin-bottom: 2rem;
+            transition: background 0.3s ease;
+        }
+
+        body.dark-mode .search-window {
+            background: rgba(46, 58, 71, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-engine-dropdown {
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 1rem;
+            color: #333;
+            outline: none;
+            margin-right: 0.8rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .search-engine-dropdown:focus {
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        body.dark-mode .search-engine-dropdown {
+            background: rgba(46, 58, 71, 0.9);
+            color: #c3cfe2;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        body.dark-mode .search-engine-dropdown:focus {
+            background: rgba(46, 58, 71, 1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+        }
+
+        .search-box {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 1rem;
+            color: #333;
+            outline: none;
+            margin-right: 0.8rem;
+            transition: background 0.3s;
+        }
+
+        .search-box:focus {
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        body.dark-mode .search-box {
+            background: rgba(46, 58, 71, 0.9);
+            color: #c3cfe2;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        body.dark-mode .search-box:focus {
+            background: rgba(46, 58, 71, 1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+        }
+
+        .search-button {
+            padding: 0.8rem 1.6rem;
+            border: none;
+            border-radius: 8px;
+            background: #007bff;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-button:hover {
+            background: #0056b3;
+        }
+
+        body.dark-mode .search-button {
+            background: #1a73e8;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        body.dark-mode .search-button:hover {
+            background: #0056b3;
+        }
+
+        /* 联系方式按钮样式 */
+        .contact-container {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        z-index: 1000;
+        }
+
+        /* 完全统一按钮样式 */
+        .toggle-button,
+        .contact-button {
+        position: fixed;
+        bottom: 20px;
+        background-color: #ffffff;
+        border: none;
+        padding: 1rem;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* 阴影完全同步 */
+        transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* 相同缓动函数 */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem; /* 字号统一 */
+        line-height: 1; /* 消除图标对齐差异 */
+        width: 56px; /* 精确尺寸控制 */
+        height: 56px; /* 确保完美圆形 */
+        }
+
+        /* 位置保持 */
+        .toggle-button { right: 20px; }
+        .contact-container { left: 20px; }
+
+        /* 深色模式像素级匹配 */
+        body.dark-mode .toggle-button,
+        body.dark-mode .contact-button {
+        background-color: #333;
+        color: #fff;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 悬停状态同步 */
+        .toggle-button:hover,
+        .contact-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 点击状态同步 */
+        .toggle-button:active,
+        .contact-button:active {
+        transform: translateY(1px);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 悬浮窗样式 */
+        .contact-popup {
+        position: absolute;
+        bottom: 100%;
+        left: 0;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        width: 260px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: all 0.3s ease;
+        }
+
+        body.dark-mode .contact-popup {
+        background: rgba(46, 58, 71, 0.9);
+        border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-container:hover .contact-popup {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        }
+
+        .contact-content h3 {
+        margin-bottom: 1rem;
+        color: #1a1a1a;
+        }
+
+        body.dark-mode .contact-content h3 {
+        color: #c3cfe2;
+        }
+
+        .contact-content ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        }
+
+        .contact-content li {
+        margin-bottom: 0.8rem;
+        padding: 8px 12px;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 6px;
+        transition: background 0.2s ease;
+        }
+
+        body.dark-mode .contact-content li {
+        background: rgba(255, 255, 255, 0.1);
+        color: #c3cfe2;
+        }
+
+        /* 移动端精确适配 */
+        @media (max-width: 768px) {
+        .toggle-button,
+        .contact-button {
+            padding: 0.85rem; /* 原切换按钮精确值 */
+            font-size: 1.3rem; /* 与原按钮完全一致 */
+            width: 48px;
+            height: 48px;
+            bottom: 15px;
+        }
+        .toggle-button { right: 15px; }
+        .contact-container { left: 15px; }
+        }
+
+    </style>
+</head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7DL8KLDTVB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-7DL8KLDTVB');
+</script>
+
+<body>
+    <div class="header">
+        <h1 class="main-title">林墨瀚の个人主页</h1>
+        <p class="subtitle">你好，我是林墨瀚，一名普通的初中生，很高兴见到你！</p>
+    </div>
+
+    <div class="search-window">
+      <div class="search-container">
+          <select class="search-engine-dropdown" id="search-engine-dropdown">
+              <option value="bing"selected>Bing</option>
+              <option value="google">Google</option>
+              <option value="baidu">百度</option>
+          </select>
+          <input type="text" class="search-box" id="search-input" placeholder="输入关键词搜索">
+          <button class="search-button" onclick="performSearch()">搜索</button>
+      </div>
+    </div>
+
+    <!-- 时钟窗口 -->
+    <div class="clock-window">
+        <div id="clock"></div>
+        <div id="date"></div>
+    </div>
+
+    <!-- 名言窗口 -->
+    <div class="quote-window">
+        <p class="quote">"先有暴力，再有优化；先有思路，再谈优雅。"<br> —— 算法竞赛的朴素真理</p>
+        <p class="quote">"算法是思想的体操，竞赛是智慧的碰撞。"</p>
+    </div>
+
+    <!-- 主功能窗口 -->
+    <div class="mac-window">
+        <div class="button-grid">
+            <!-- 技研录按钮 -->
+            <button class="mac-button" onclick="window.location.href='http://linmohan.fun'; event.stopPropagation();">
+              技研录 🖥️📖
+            </button>
+
+            <!-- 个人介绍按钮 -->
+            <button class="mac-button" onclick="window.location.href='ziwojieshao/main.html'; event.stopPropagation();">
+                个人介绍 👤💬
+            </button>
+
+            <!-- 旧版本按钮 -->
+            <button class="mac-button" onclick="window.location.href='sub/old.html'; event.stopPropagation();">
+              旧版本 🕰️🔙
+            </button>
+
+            <!-- 赞助按钮 -->
+            <button class="mac-button" onclick="window.location.href='sub/pay.html'; event.stopPropagation();">
+                赞助 💰🤝
+            </button>
+        </div>
+    </div>
+
+    <!-- 切换模式按钮 -->
+    <button class="toggle-button" onclick="toggleDarkMode()">🌙</button>
+
+    <!-- 联系方式按钮及悬浮窗 -->
+    <div class="contact-container">
+        <button class="contact-button">📨</button>
+        <div class="contact-popup">
+        <div class="contact-content">
+            <h3>联系方式</h3>
+            <ul>
+            <li>QQ: 2113836986</li>
+            <li>B站: 2126856300</li>
+            <li>Email: beilingyu65@gmail.com</li>
+            </ul>
+        </div>
+        </div>
+    </div>
+
+    <!-- 番茄钟-->
+    <div class="mac-window pomodoro-container">
+        <h3 class="section-title">专注时钟 🍅</h3>
+        <div class="pomodoro-body">
+            <!-- 时间显示 -->
+            <div class="time-display">
+                <span id="timer">25:00</span>
+                <div class="session-info">
+                    <span id="sessionType">专注时间</span>
+                    <span id="cycleCount">第1轮</span>
+                </div>
+            </div>
+
+            <!-- 进度条 -->
+            <div class="linear-progress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+
+            <!-- 控制面板 -->
+            <div class="control-panel">
+                <div class="time-settings">
+                    <div class="setting-item">
+                        <label>专注（分钟）</label>
+                        <input type="number" id="workTime" min="1" value="25"
+                            class="styled-input">
+                    </div>
+                    <div class="setting-item">
+                        <label>休息（分钟）</label>
+                        <input type="number" id="breakTime" min="1" value="5"
+                            class="styled-input">
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button class="mac-button" id="startBtn">▶️ 开始</button>
+                    <button class="mac-button" id="resetBtn">🔄 重置</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // 页面加载时读取用户的设置
+        window.onload = function() {
+            const darkMode = localStorage.getItem('darkMode') === 'true';
+            const searchEngine = localStorage.getItem('searchEngine') || 'google';
+
+            // 根据用户上次选择恢复黑夜模式
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+            }
+
+            // 恢复搜索引擎选择
+            document.getElementById('search-engine-dropdown').value = searchEngine;
+        };
+
+        // 更新时间函数
+        function updateClock() {
+            const clockElement = document.getElementById('clock');
+            const dateElement = document.getElementById('date');
+
+            // 获取本地时间
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            const date = now.toLocaleDateString();
+
+            // 更新时钟和日期显示
+            clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+            dateElement.textContent = date;
+        }
+
+        // 每秒更新时钟
+        setInterval(updateClock, 1000);
+
+        // 页面加载时立即显示时间
+        updateClock();
+
+        // 搜索功能
+
+        document.getElementById('search-input').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        // 初始化设置
+        window.addEventListener('DOMContentLoaded', () => {
+        // 设置默认搜索引擎为Bing
+        const defaultEngine = 'bing';
+        const storedEngine = localStorage.getItem('searchEngine');
+
+        // 验证存储值有效性
+        const validEngines = ['google', 'baidu', 'bing'];
+        const initialEngine = validEngines.includes(storedEngine) ? storedEngine : defaultEngine;
+
+        // 更新存储和界面
+        localStorage.setItem('searchEngine', initialEngine);
+        document.getElementById('search-engine-dropdown').value = initialEngine;
+        });
+
+        function performSearch() {
+
+            const searchEngine = document.getElementById('search-engine-dropdown').value;
+            const keyword = document.getElementById('search-input').value;
+            let url = '';
+
+
+
+            switch (searchEngine) {
+                case 'baidu':
+                    url = `https://www.baidu.com/s?wd=${keyword}`;
+                    break;
+                case 'bing':
+                    url = `https://www.bing.com/search?q=${keyword}`;
+                    break;
+                case 'google':
+                    url = `https://www.google.com/search?q=${keyword}`;
+                    break;
+            }
+
+            // 存储用户选择的搜索引擎
+            localStorage.setItem('searchEngine', searchEngine);
+
+            if (url) {
+                window.open(url, '_blank');
+            }
+        }
+
+        // 切换黑夜模式
+        function toggleDarkMode() {
+            const darkMode = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', darkMode);
+        }
+
+
+
+        // 番茄钟功能实现
+        (function() {
+            'use strict';
+
+            const STORAGE_KEY = 'pomodoroSettings';
+            let timer = null;
+            let isRunning = false;
+            let isWorkSession = true;
+            let timeLeft = 25 * 60;
+            let workDuration = 25;
+            let breakDuration = 5;
+            let cycleCount = 1;
+
+            // DOM元素
+            const elements = {
+                timer: document.getElementById('timer'),
+                sessionType: document.getElementById('sessionType'),
+                cycleCount: document.getElementById('cycleCount'),
+                workTime: document.getElementById('workTime'),
+                breakTime: document.getElementById('breakTime'),
+                startBtn: document.getElementById('startBtn'),
+                resetBtn: document.getElementById('resetBtn'),
+                progressBar: document.getElementById('progressBar')
+            };
+
+            // 主逻辑函数
+            function toggleTimer() {
+                isRunning = !isRunning;
+                elements.startBtn.innerHTML = isRunning ? '⏸️ 暂停' : '▶️ 开始';
+
+                if(isRunning) {
+                    timer = setInterval(updateTimer, 1000);
+                } else {
+                    clearInterval(timer);
+                }
+            }
+
+            function updateTimer() {
+                timeLeft--;
+                updateProgress();
+
+                if(timeLeft <= 0) {
+                    handleSessionEnd();
+                }
+            }
+
+            function updateProgress() {
+                const progress = 1 - (timeLeft / (currentDuration() * 60));
+                elements.progressBar.style.transform = `scaleX(${progress})`;
+
+                const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+                const seconds = (timeLeft % 60).toString().padStart(2, '0');
+                elements.timer.textContent = `${minutes}:${seconds}`;
+                elements.cycleCount.textContent = `第${cycleCount}轮`;
+            }
+
+            function handleSessionEnd() {
+                playSound();
+
+                if(!isWorkSession) cycleCount++;
+                isWorkSession = !isWorkSession;
+                timeLeft = currentDuration() * 60;
+
+                // 进度条动画重置
+                elements.progressBar.style.transition = 'none';
+                elements.progressBar.style.transform = 'scaleX(0)';
+                setTimeout(() => {
+                    elements.progressBar.style.transition = 'transform 0.5s linear';
+                }, 10);
+
+                updateSessionDisplay();
+                toggleTimer();
+            }
+
+            function updateSessionDisplay() {
+                elements.sessionType.textContent = isWorkSession ? '专注时间' : '休息时间';
+                elements.sessionType.style.color = isWorkSession ? '' : '#4CAF50';
+            }
+
+            function currentDuration() {
+                return isWorkSession ? workDuration : breakDuration;
+            }
+
+            // 控制函数
+            function resetTimer() {
+                clearInterval(timer);
+                isRunning = false;
+                isWorkSession = true;
+                cycleCount = 1;
+                updateSettings();
+                updateProgress();
+                elements.startBtn.innerHTML = '▶️ 开始';
+            }
+
+            function updateSettings() {
+                workDuration = parseInt(elements.workTime.value) || 25;
+                breakDuration = parseInt(elements.breakTime.value) || 5;
+                timeLeft = workDuration * 60;
+                saveSettings();
+                updateSessionDisplay();
+            }
+
+            // 工具函数
+            function playSound() {
+                const audio = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU');
+                audio.play().catch(() => {});
+            }
+
+            function saveSettings() {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                    work: workDuration,
+                    break: breakDuration
+                }));
+            }
+
+            function loadSettings() {
+                const settings = JSON.parse(localStorage.getItem(STORAGE_KEY));
+                if(settings) {
+                    workDuration = settings.work;
+                    breakDuration = settings.break;
+                    elements.workTime.value = workDuration;
+                    elements.breakTime.value = breakDuration;
+                    timeLeft = workDuration * 60;
+                }
+            }
+
+            // 移动端优化
+            function initMobile() {
+                // 输入框自动滚动
+                document.querySelectorAll('.styled-input').forEach(input => {
+                    input.addEventListener('focus', () => {
+                        if(window.innerWidth < 768) {
+                            setTimeout(() => input.scrollIntoView({
+                                block: 'center',
+                                behavior: 'smooth'
+                            }), 300);
+                        }
+                    });
+                });
+
+                // 防止按钮点击穿透
+                document.querySelectorAll('.mac-button').forEach(btn => {
+                    btn.addEventListener('touchstart', e => e.stopPropagation(), {passive: true});
+                });
+            }
+
+            // 初始化
+            function init() {
+                loadSettings();
+                initMobile();
+
+                elements.startBtn.addEventListener('click', toggleTimer);
+                elements.resetBtn.addEventListener('click', resetTimer);
+                elements.workTime.addEventListener('change', updateSettings);
+                elements.breakTime.addEventListener('change', updateSettings);
+
+                updateProgress();
+                updateSessionDisplay();
+            }
+
+            window.addEventListener('DOMContentLoaded', init);
+        })();
+
+    </script>
+
+</body>
+</html>
+
+<a href="https://github.com/LINMOH/LINMOH.github.io" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>

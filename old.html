@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I'm 林墨瀚!</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            background-color: black;
+            cursor: pointer;
+            flex-direction: column;
+            position: relative;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        h2 {
+            color: #222;
+            font-size: 100px;
+            font-weight: bold;
+            text-align: center;
+            transition: color 0.5s, text-shadow 0.5s;
+            margin-top: 20px;
+        }
+
+        h2 a {
+            text-decoration: none;
+            color: white;
+        }
+
+        h2 span {
+            transition: 0.5s;
+            display: inline;
+        }
+
+        h2 span.break {
+            display: block;
+        }
+
+        /* 修改卡片背景颜色为灰色 #778899 */
+        .card {
+            background-color: #778899; /* 设为灰色 */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            width: 300px;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            opacity: 0.5; /* 初始状态暗一点 */
+            transition: opacity 0.5s ease;
+        }
+
+        .card .purple-button,
+        .card .red-button,
+        .card .green-button,
+        .card .blue-button {
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 10px; /* 增加间隔 */
+        }
+
+        .card .purple-button {
+            background-color: #6633cc; /* 紫色 */
+        }
+
+        .card .purple-button:hover {
+            background-color: #5a2d99; /* 深紫色 */
+        }
+
+        .card .red-button {
+            background-color: #dc3545; /* 红色 */
+        }
+
+        .card .red-button:hover {
+            background-color: #c82333; /* 深红色 */
+        }
+
+        .card .green-button {
+            background-color: #28a745; /* 绿色 */
+        }
+
+        .card .green-button:hover {
+            background-color: #218838; /* 深绿色 */
+        }
+
+        .card .blue-button {
+            background-color: #6c757d; /* 灰色 */
+        }
+
+        .card .blue-button:hover {
+            background-color: #5a6268; /* 深灰色 */
+        }
+
+        /* 小字样式 */
+        .small-text {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 18px;
+            color: #fff;
+            animation: breathing 1.5s infinite ease-in-out;
+        }
+
+        /* 版本号小字样式 */
+        .version {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 12px;
+            color: #fff;
+            opacity: 0.7;
+        }
+
+        @keyframes breathing {
+            0% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.5;
+            }
+        }
+
+        /* 变亮效果 */
+        .brighten {
+            color: white;
+            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 40px #fff, 0 0 80px #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 版本号小字 -->
+    <div class="version">版本：2.11 2025/01/19 （62）</div>
+
+    <h2 id="title-text"><span>I</span><span>'m</span> <span class="break">林墨瀚!</span></h2>
+
+    <!-- 旧页面卡片，固定在页面底部 -->
+    <div class="card" id="card">
+        <!-- 个人介绍按钮 -->
+        <button class="purple-button" onclick="window.location.href='main.html'; event.stopPropagation();">
+            个人介绍
+        </button>
+
+        <!-- 技研社按钮 -->
+        <button class="green-button" onclick="window.location.href='http://linmohan.fun'; event.stopPropagation();">
+            技研录
+        </button>
+
+        <!-- 赞助按钮 -->
+        <button class="red-button" onclick="window.location.href='pay.html'; event.stopPropagation();">
+            赞助
+        </button>
+
+        <!-- 看你懂不懂我按钮 -->
+        <button class="blue-button" onclick="window.location.href='https://linmoh.github.io/q_a.html'; event.stopPropagation();">
+            看你懂不懂我
+        </button>
+
+        <!-- 旧版本按钮 -->
+        <button class="purple-button" onclick="window.location.href='chuban.html'; event.stopPropagation();">
+            旧版本
+        </button>
+    </div>
+
+    <script>
+        // 获取标题和卡片元素
+        const titleText = document.getElementById('title-text');
+        const card = document.getElementById('card');
+
+        // 页面加载后2秒自动变亮
+        setTimeout(() => {
+            titleText.classList.add('brighten');
+        }, 500);
+
+        // 监听卡片的 hover 事件，改变卡片的透明度
+        card.addEventListener('mouseover', () => {
+            card.style.opacity = 1; // 当鼠标移入卡片时，卡片变亮
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.opacity = 0.5; // 当鼠标离开卡片时，卡片恢复暗
+        });
+    </script>
+
+</body>
+
+</html>
